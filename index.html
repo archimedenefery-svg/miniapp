@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<!-- ==========================================================================
+     INDEX.HTML — LE SQUELETTE DE LA PAGE
+     ==========================================================================
+     ➜ NON-INFORMATICIEN : VOUS N'AVEZ PAS BESOIN DE MODIFIER CE FICHIER.
+       Tout le contenu (nom, produits, prix, liens, couleurs) est dans config.js.
+
+     Ce fichier décrit seulement l'emplacement des blocs à l'écran, de haut en bas :
+       1. l'en-tête : langue, logo, nom, recherche
+       2. la zone centrale, remplie automatiquement selon l'onglet choisi
+       3. la fiche produit (cachée tant qu'on ne touche pas un produit)
+       4. la barre d'onglets en bas
+     Les textes verts/gris comme celui-ci (entre les balises de commentaire)
+     sont des explications, invisibles sur la page.
+     ========================================================================== -->
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />  <!-- permet d'afficher les accents et les emojis -->
+
+  <!-- Adapte la page à la largeur du téléphone (sinon elle apparaît en minuscule) -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+
+  <title>Boutique</title>  <!-- remplacé automatiquement par le nom de config.js -->
+
+  <!-- Outils fournis par Telegram (fermer, vibrer, ouvrir les liens...). Ne pas retirer. -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+  <!-- Polices d'écriture : "Lilita One" pour le grand titre, "Inter" pour le reste -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Fichier qui gère l'apparence (tailles, arrondis, positions) -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== 1. EN-TÊTE (identique sur tous les onglets) ===== -->
+  <header class="header">
+    <!-- Choix de la langue, en haut à droite -->
+    <select id="lang" class="lang" aria-label="Langue">
+      <option value="fr">🇫🇷 FR</option>
+      <option value="en">🇬🇧 EN</option>
+    </select>
+
+    <!-- Emplacement du logo (rempli depuis config.js) -->
+    <div id="logo" class="logo"></div>
+
+    <!-- Emplacement du nom de la boutique (rempli depuis config.js) -->
+    <h1 id="shop-name" class="shop-name"></h1>
+
+    <!-- Barre de recherche : loupe + zone de saisie -->
+    <label class="search">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="search" type="search" autocomplete="off" />
+    </label>
+  </header>
+
+  <!-- ===== 2. ZONE CENTRALE : son contenu change selon l'onglet touché ===== -->
+  <main id="view" class="view"></main>
+
+  <!-- ===== 3. FICHE PRODUIT : voile sombre + fenêtre qui monte du bas ===== -->
+  <div id="sheet-bg" class="sheet-bg hidden"></div>
+  <section id="sheet" class="sheet hidden" aria-modal="true"></section>
+
+  <!-- ===== 4. BARRE D'ONGLETS EN BAS =====
+       5 boutons. Chacun = un dessin (svg) + un texte (rempli selon la langue).
+       data-tab indique quel écran ouvrir : ne pas modifier ces mots. -->
+  <nav class="tabbar">
+    <button data-tab="groups">   <!-- onglet Groupes -->
+      <svg viewBox="0 0 24 24"><path d="M12 3 2 8l10 5 10-5-10-5Z"/><path d="m2 13 10 5 10-5"/><path d="m2 17.5 10 5 10-5" opacity=".6"/></svg>
+      <span data-i18n="tab_groups"></span>
+    </button>
+    <button data-tab="contact">  <!-- onglet Contact -->
+      <svg viewBox="0 0 24 24"><path d="M4 5h11a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H9l-4 3v-3H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"/><path d="M19 9h1a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2v3l-4-3h-4" opacity=".6"/></svg>
+      <span data-i18n="tab_contact"></span>
+    </button>
+    <button data-tab="menu">     <!-- onglet Menu (catalogue) -->
+      <svg viewBox="0 0 24 24"><rect x="3" y="4" width="4" height="4" rx="1"/><rect x="3" y="10" width="4" height="4" rx="1"/><rect x="3" y="16" width="4" height="4" rx="1"/><path d="M10 6h11M10 12h11M10 18h11"/></svg>
+      <span data-i18n="tab_menu"></span>
+    </button>
+    <button data-tab="reviews">  <!-- onglet Avis -->
+      <svg viewBox="0 0 24 24"><path d="m12 2.5 2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5-4.8-4.6 6.6-.9z"/></svg>
+      <span data-i18n="tab_reviews"></span>
+    </button>
+    <button data-tab="info">     <!-- onglet Infos -->
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 11v6M12 7.5v.01"/></svg>
+      <span data-i18n="tab_info"></span>
+    </button>
+  </nav>
+
+  <!-- Chargement des 2 fichiers de fonctionnement. L'ORDRE COMPTE :
+       d'abord la fiche boutique (config.js), ensuite le moteur (app.js). -->
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
