@@ -22,7 +22,9 @@
    (pour tester sur PC), ces outils n'existent pas : "tg" vaut alors null
    et la page fonctionne quand même.
    ----------------------------------------------------------------------------- */
-const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
+// "let" et non "const" : le fichier de Telegram peut arriver APRÈS cette page
+// (chargement "async" dans index.html). connecterTelegram() le branche alors.
+let tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
 
 
 /* -----------------------------------------------------------------------------
@@ -348,9 +350,22 @@ $("#lang").addEventListener("change", (e) => {
 /* -----------------------------------------------------------------------------
    11. DÉMARRAGE DE LA PAGE
    ----------------------------------------------------------------------------- */
+// Branche les outils Telegram dès qu'ils sont disponibles (tout de suite, ou plus
+// tard si le fichier de Telegram arrive après la page). Une seule fois.
+let telegramBranche = false;
+function connecterTelegram() {
+  if (telegramBranche || !(window.Telegram && window.Telegram.WebApp)) return;
+  telegramBranche = true;
+  tg = window.Telegram.WebApp;
+  tg.ready();                                   // prévient Telegram que la page est prête
+  tg.expand();                                  // plein écran
+  tg.BackButton && tg.BackButton.onClick(goBack);
+  if (state.cfg) { try { tg.setHeaderColor(state.cfg.theme.bg); tg.setBackgroundColor(state.cfg.theme.bg); } catch (e) {} render(); }
+}
+window.connecterTelegram = connecterTelegram;
+
 function init() {
-  // Prévient Telegram que la page est prête, et l'ouvre en plein écran
-  if (tg) { tg.ready(); tg.expand(); tg.BackButton && tg.BackButton.onClick(goBack); }
+  connecterTelegram();
 
   // window.SHOP est créé par config.js. S'il n'existe pas, c'est que config.js
   // est absent ou contient une faute de frappe (virgule, guillemet, accolade).

@@ -1,0 +1,2 @@
+Mettre ici les images de la boutique : logo, photos des produits, des categories, fond.
+Noms simples : minuscules, sans espace ni accent (ex : cookies.jpg). Moins de 300 Ko par image.
